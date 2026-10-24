@@ -1,2 +1,2 @@
 # HSBC-HACKATHON
-this is our project for digital seva hackathon
+this is our project for hsbc hackathon
