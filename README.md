@@ -1,4 +1,4 @@
-# SkillBridge
+# SkillMate
 
 A gamified skill-learning and project-building web application. Students can explore skill roadmaps, practise through interactive activities, browse courses and opportunities, track project work, and build a shareable Skill Passport.
 
