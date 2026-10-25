@@ -1,0 +1,116 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default-deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isPortfolioPublic(userId) {
+      return exists(/databases/$(database)/documents/users/$(userId)) &&
+        get(/databases/$(database)/documents/users/$(userId)).data.isPublicPortfolio == true;
+    }
+
+    // User profile validation
+    function isValidUserProfile(data) {
+      return data.keys().hasAll(['userId', 'displayName']) &&
+        data.userId is string && data.userId.size() <= 128 &&
+        data.displayName is string && data.displayName.size() > 0 && data.displayName.size() <= 100 &&
+        (!('email' in data) || (data.email is string && data.email.size() <= 128)) &&
+        (!('photoURL' in data) || (data.photoURL is string && data.photoURL.size() <= 500)) &&
+        (!('bio' in data) || (data.bio is string && data.bio.size() <= 500)) &&
+        (!('careerGoal' in data) || (data.careerGoal is string && data.careerGoal.size() <= 150)) &&
+        (!('selectedSkill' in data) || (data.selectedSkill is string && data.selectedSkill.size() <= 50)) &&
+        (!('roadmapMode' in data) || (data.roadmapMode in ['normal', 'advanced', 'smart', 'quick_build'])) &&
+        (!('totalXp' in data) || (data.totalXp is number && data.totalXp >= 0)) &&
+        (!('level' in data) || (data.level is number && data.level >= 1)) &&
+        (!('isPublicPortfolio' in data) || (data.isPublicPortfolio is bool));
+    }
+
+    function isValidSublevelProgress(data) {
+      return data.keys().hasAll(['userId', 'sublevelId', 'completed']) &&
+        data.userId is string && data.userId.size() <= 128 &&
+        data.sublevelId is string && data.sublevelId.size() <= 100 &&
+        data.completed is bool &&
+        (!('worldId' in data) || (data.worldId is string && data.worldId.size() <= 100)) &&
+        (!('levelId' in data) || (data.levelId is string && data.levelId.size() <= 100)) &&
+        (!('stars' in data) || (data.stars is number && data.stars >= 0 && data.stars <= 3)) &&
+        (!('xpEarned' in data) || (data.xpEarned is number && data.xpEarned >= 0)) &&
+        (!('attempts' in data) || (data.attempts is number && data.attempts >= 0));
+    }
+
+    function isValidProjectSubmission(data) {
+      return data.keys().hasAll(['userId', 'projectId', 'status']) &&
+        data.userId is string && data.userId.size() <= 128 &&
+        data.projectId is string && data.projectId.size() <= 100 &&
+        data.status in ['not_started', 'in_progress', 'completed'] &&
+        (!('title' in data) || (data.title is string && data.title.size() <= 150)) &&
+        (!('category' in data) || (data.category is string && data.category.size() <= 80)) &&
+        (!('githubUrl' in data) || (data.githubUrl is string && data.githubUrl.size() <= 300)) &&
+        (!('liveUrl' in data) || (data.liveUrl is string && data.liveUrl.size() <= 300)) &&
+        (!('notes' in data) || (data.notes is string && data.notes.size() <= 2000)) &&
+        (!('featuredInPassport' in data) || (data.featuredInPassport is bool));
+    }
+
+    function isValidSavedCourse(data) {
+      return data.keys().hasAll(['userId', 'courseId', 'title', 'url']) &&
+        data.userId is string && data.userId.size() <= 128 &&
+        data.courseId is string && data.courseId.size() <= 100 &&
+        data.title is string && data.title.size() <= 200 &&
+        data.url is string && data.url.size() <= 300 &&
+        (!('provider' in data) || (data.provider is string && data.provider.size() <= 100)) &&
+        (!('isFree' in data) || (data.isFree is bool));
+    }
+
+    // User collection rules
+    match /users/{userId} {
+      allow get: if isOwner(userId) || isPortfolioPublic(userId);
+      allow list: if false;
+      allow create: if isOwner(userId) && request.resource.data.userId == request.auth.uid && isValidUserProfile(request.resource.data);
+      allow update: if isOwner(userId) && request.resource.data.userId == resource.data.userId && isValidUserProfile(request.resource.data);
+      allow delete: if isOwner(userId);
+
+      // Subcollection: learning progress
+      match /progress/{sublevelId} {
+        allow read: if isOwner(userId) || isPortfolioPublic(userId);
+        allow create: if isOwner(userId) && request.resource.data.userId == request.auth.uid && isValidSublevelProgress(request.resource.data);
+        allow update: if isOwner(userId) && request.resource.data.userId == resource.data.userId && isValidSublevelProgress(request.resource.data);
+        allow delete: if isOwner(userId);
+      }
+
+      // Subcollection: project submissions
+      match /projects/{projectId} {
+        allow read: if isOwner(userId) || isPortfolioPublic(userId);
+        allow create: if isOwner(userId) && request.resource.data.userId == request.auth.uid && isValidProjectSubmission(request.resource.data);
+        allow update: if isOwner(userId) && request.resource.data.userId == resource.data.userId && isValidProjectSubmission(request.resource.data);
+        allow delete: if isOwner(userId);
+      }
+
+      // Subcollection: saved courses
+      match /savedCourses/{courseId} {
+        allow read: if isOwner(userId);
+        allow create: if isOwner(userId) && request.resource.data.userId == request.auth.uid && isValidSavedCourse(request.resource.data);
+        allow update: if isOwner(userId) && request.resource.data.userId == resource.data.userId && isValidSavedCourse(request.resource.data);
+        allow delete: if isOwner(userId);
+      }
+    }
+
+    // Optional test connection document for boots
+    match /test/{docId} {
+      allow read: if true;
+    }
+  }
+}

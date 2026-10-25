@@ -1,0 +1,8 @@
+{
+  "name": "SkillBridge",
+  "description": "Gamified skill-learning and project-building platform with interactive roadmaps, 8 activity types, project zone, course browser, and automatic Skill Passport.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

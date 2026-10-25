@@ -1,0 +1,240 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Student user profile information and gamification summary",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "The unique Firebase Auth UID of the student",
+          "maxLength": 128
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Student full or display name",
+          "maxLength": 100
+        },
+        "email": {
+          "type": "string",
+          "description": "Student email address",
+          "maxLength": 128
+        },
+        "photoURL": {
+          "type": "string",
+          "description": "Profile picture URL or avatar identifier",
+          "maxLength": 500
+        },
+        "bio": {
+          "type": "string",
+          "description": "Short student bio / introduction",
+          "maxLength": 500
+        },
+        "careerGoal": {
+          "type": "string",
+          "description": "Target career or learning goal",
+          "maxLength": 150
+        },
+        "selectedSkill": {
+          "type": "string",
+          "description": "Currently active primary skill identifier",
+          "maxLength": 50
+        },
+        "roadmapMode": {
+          "type": "string",
+          "description": "Active learning mode: normal, advanced, smart, quick_build",
+          "enum": ["normal", "advanced", "smart", "quick_build"]
+        },
+        "totalXp": {
+          "type": "number",
+          "description": "Total earned experience points"
+        },
+        "level": {
+          "type": "number",
+          "description": "Calculated player level"
+        },
+        "isPublicPortfolio": {
+          "type": "boolean",
+          "description": "Whether the Skill Passport is shared publicly"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Account creation ISO timestamp or server timestamp",
+          "maxLength": 50
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Profile last updated ISO timestamp or server timestamp",
+          "maxLength": 50
+        }
+      },
+      "required": ["userId", "displayName"]
+    },
+    "SublevelProgress": {
+      "title": "SublevelProgress",
+      "description": "Gamified progress records for each learning sublevel",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Student auth UID",
+          "maxLength": 128
+        },
+        "sublevelId": {
+          "type": "string",
+          "description": "Sublevel ID identifier",
+          "maxLength": 100
+        },
+        "worldId": {
+          "type": "string",
+          "description": "World ID identifier",
+          "maxLength": 100
+        },
+        "levelId": {
+          "type": "string",
+          "description": "Level ID identifier",
+          "maxLength": 100
+        },
+        "completed": {
+          "type": "boolean",
+          "description": "Whether this sublevel has been completed"
+        },
+        "stars": {
+          "type": "number",
+          "description": "Stars earned (0 to 3)"
+        },
+        "xpEarned": {
+          "type": "number",
+          "description": "XP earned from this sublevel"
+        },
+        "attempts": {
+          "type": "number",
+          "description": "Number of attempts taken"
+        },
+        "completedAt": {
+          "type": "string",
+          "description": "Completion ISO timestamp",
+          "maxLength": 50
+        }
+      },
+      "required": ["userId", "sublevelId", "completed"]
+    },
+    "ProjectSubmission": {
+      "title": "ProjectSubmission",
+      "description": "Student project submission and completion record",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Student auth UID",
+          "maxLength": 128
+        },
+        "projectId": {
+          "type": "string",
+          "description": "Target project template ID",
+          "maxLength": 100
+        },
+        "title": {
+          "type": "string",
+          "description": "Project title",
+          "maxLength": 150
+        },
+        "category": {
+          "type": "string",
+          "description": "Project category tag",
+          "maxLength": 80
+        },
+        "status": {
+          "type": "string",
+          "description": "Project status",
+          "enum": ["not_started", "in_progress", "completed"]
+        },
+        "githubUrl": {
+          "type": "string",
+          "description": "Repository URL",
+          "maxLength": 300
+        },
+        "liveUrl": {
+          "type": "string",
+          "description": "Deployed preview URL",
+          "maxLength": 300
+        },
+        "notes": {
+          "type": "string",
+          "description": "Student reflection or implementation notes",
+          "maxLength": 2000
+        },
+        "featuredInPassport": {
+          "type": "boolean",
+          "description": "Whether to highlight in Skill Passport portfolio"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Last update ISO timestamp",
+          "maxLength": 50
+        }
+      },
+      "required": ["userId", "projectId", "status"]
+    },
+    "SavedCourse": {
+      "title": "SavedCourse",
+      "description": "Course bookmarked from Course Browser",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Student auth UID",
+          "maxLength": 128
+        },
+        "courseId": {
+          "type": "string",
+          "description": "Course identifier",
+          "maxLength": 100
+        },
+        "title": {
+          "type": "string",
+          "description": "Course title",
+          "maxLength": 200
+        },
+        "provider": {
+          "type": "string",
+          "description": "Course provider (e.g. YouTube, freeCodeCamp, Coursera)",
+          "maxLength": 100
+        },
+        "url": {
+          "type": "string",
+          "description": "Link to course",
+          "maxLength": 300
+        },
+        "isFree": {
+          "type": "boolean",
+          "description": "Whether the course is free"
+        },
+        "savedAt": {
+          "type": "string",
+          "description": "Bookmark ISO timestamp",
+          "maxLength": 50
+        }
+      },
+      "required": ["userId", "courseId", "title", "url"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "Student profiles and public portfolio configurations"
+    },
+    "/users/{userId}/progress/{sublevelId}": {
+      "schema": "SublevelProgress",
+      "description": "User progress per sublevel"
+    },
+    "/users/{userId}/projects/{projectId}": {
+      "schema": "ProjectSubmission",
+      "description": "User project submissions and showcase entries"
+    },
+    "/users/{userId}/savedCourses/{courseId}": {
+      "schema": "SavedCourse",
+      "description": "User saved courses"
+    }
+  }
+}
