@@ -181,7 +181,13 @@ Core Workflow
                      They do not block missions
                      or level progression.
 
+🖥️ Prototype
 
+The SkillMate prototype presents the main dashboard and navigation for the platform, including the learning roadmap, course discovery, Skill Level-Up, Project Zone, and Skill Passport.
+
+## Dashboard
+
+![dashboard_screenshot](images/dashboard.png)
 
 
 
