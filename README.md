@@ -187,6 +187,8 @@ The SkillMate prototype presents the main dashboard and navigation for the platf
 
 ## Dashboard
 
+The SkillBridge dashboard provides quick access to learning roadmaps, courses, projects, progress tracking, and the Skill Passport.
+
 ![dashboard_screenshot](images/dashboard.png)
 
 
