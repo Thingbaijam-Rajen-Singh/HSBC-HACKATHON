@@ -46,89 +46,172 @@ SkillBridge/
 ├── tsconfig.json
 └── vite.config.ts
 ```
+Core Workflow
+                              USER
+                                |
+                                v
+                     +----------------------+
+                     |    Register / Login  |
+                     +----------------------+
+                                |
+                                v
+                     +----------------------+
+                     |   Student Dashboard  |
+                     +----------------------+
+                                |
+           +--------------------+--------------------+
+           |                    |                    |
+           v                    v                    v
+ +------------------+  +------------------+  +------------------+
+ |   Select a Skill |  |  Course Browser  |  | Opportunity      |
+ +------------------+  +------------------+  | Discovery        |
+           |           |                  |  +------------------+
+           |           v                  |           |
+           |  +----------------------+   |           v
+           |  | Search Free & Paid    |   |  +------------------+
+           |  | Courses               |   |  | Find Relevant    |
+           |  +----------------------+   |  | Internships,     |
+           |           |                  |  | Competitions &   |
+           |           v                  |  | Projects         |
+           |  +----------------------+   |  +------------------+
+           |  | Filter, Compare      |   |
+           |  | & Save Courses       |   |
+           |  +----------------------+   |
+           |                              |
+           v                              |
+ +--------------------------+             |
+ | Choose Learning Roadmap  |             |
+ +--------------------------+             |
+           |                              |
+     +-----+---------+---------+          |
+     |               |         |          |
+     v               v         v          |
++------------+ +-----------+ +------------------+
+|   Normal   | | Advanced  | | Smart Roadmap    |
+|  Roadmap   | | Roadmap   | +------------------+
++------------+ +-----------+          |
+     |               |                v
+     |               |      +----------------------+
+     |               |      | Assess Existing Skills|
+     |               |      | & Identify Gaps      |
+     |               |      +----------------------+
+     |               |                |
+     +-------+-------+----------------+
+             |
+             v
+  +--------------------------+      +------------------+
+  | Generate Learning Path   |<-----| Quick Build      |
+  +--------------------------+      | Roadmap          |
+             ^                      +------------------+
+             |                               |
+             |                               v
+             |                    +----------------------+
+             +--------------------| Choose Product Goal  |
+                                  | & Essential Tech      |
+                                  +----------------------+
+             |
+             v
+  +--------------------------+
+  |   Skill Level-Up Map      |
+  +--------------------------+
+             |
+             v
+  +--------------------------+
+  | Worlds -> Levels         |
+  | -> Sublevels              |
+  +--------------------------+
+             |
+    +--------+-----------------------------------------------+
+    |        |        |        |        |        |       |    |
+    v        v        v        v        v        v       v    v
++--------+ +------+ +------+ +------+ +------+ +------+ +------+ +--------+
+|Inter-  | |Quiz &| |Fill  | |Code  | |Bug   | |Build | |Predict| |Level   |
+|active  | |Know- | |Missing| |Puzzles| |Hunt  | |from  | |Output | |Boss    |
+|Learning| |ledge | |Code  | |      | |      | |Scratch| |      | |Missions|
++--------+ +------+ +------+ +------+ +------+ +------+ +------+ +--------+
+    |        |        |        |        |        |       |       |
+    +--------+--------+--------+--------+--------+-------+-------+
+                                  |
+                                  v
+                      +--------------------------+
+                      | Complete Required        |
+                      | Activities               |
+                      +--------------------------+
+                                  |
+                                  v
+                      +--------------------------+
+                      |  Requirements Passed?    |
+                      +--------------------------+
+                             /           \
+                           NO             YES
+                           |               |
+                           v               v
+                +----------------+  +------------------------+
+                | Feedback, Hints|  | Save Progress, XP      |
+                | & Retry        |  | & Unlock Next Level    |
+                +----------------+  +------------------------+
+                           |               |
+                           +----->         |
+                                           v
+                              +--------------------------+
+                              | Update Skill Passport    |
+                              +--------------------------+
+                                           |
+                                           v
+                              +--------------------------+
+                              | Automatically Update     |
+                              | Profile & Portfolio      |
+                              +--------------------------+
+                                           |
+                                           v
+                              +--------------------------+
+                              | Preview & Share Skill    |
+                              | Passport                 |
+                              +--------------------------+
 
-## Run locally
 
-### 1. Install Node.js
+                   SEPARATE PROJECT ZONE
+                   (Accessible at any time)
 
-Use Node.js **22.12 or newer** and npm.
+                     +----------------------+
+                     | Separate Project Zone|
+                     +----------------------+
+                                |
+                                v
+                     +----------------------+
+                     | Choose a Complete    |
+                     | Project               |
+                     +----------------------+
+                                |
+                                v
+                     +----------------------+
+                     | Build, Test &         |
+                     | Complete Project     |
+                     +----------------------+
+                                |
+                                v
+                     +----------------------+
+                     | Save Project         |
+                     | & Evidence           |
+                     +----------------------+
+                                |
+                                +-----------> Update Skill Passport
 
-### 2. Install dependencies
 
-From the repository root:
+                   OPTIONAL LEARNING RESOURCES
 
-```bash
-npm install
-```
+                     +----------------------+
+                     | YouTube Videos        |
+                     | Courses & Articles    |
+                     | Documentation         |
+                     +----------------------+
 
-### 3. Configure environment variables
+                     Resources can be skipped.
+                     They do not block missions
+                     or level progression.
 
-Copy `.env.example` to `.env`, then fill in the values you need. Keep `.env` private; it is ignored by Git.
 
-- `GEMINI_API_KEY` and `OPENAI_API_KEY` are **server-only** keys used by the backend. You can leave either blank if you do not have that provider configured; some AI endpoints have fallback behaviour.
-- `VITE_FIREBASE_*` values must come from a Firebase Web App that you control. They are browser configuration values, not a place to store Gemini or OpenAI secrets.
-- The app can use local/demo flows without Firebase credentials, but Google sign-in and cloud-saved progress require Firebase to be configured.
 
-### 4. Configure Firebase (for cloud features)
 
-1. Create or select your own Firebase project.
-2. Register a Web App and copy its configuration values into the `VITE_FIREBASE_*` fields in `.env`.
-3. Enable Google as a sign-in provider in Firebase Authentication and add your local/deployed domain to Authorized domains.
-4. Configure Firestore and review `firebase/firestore.rules` before deploying them. The rules allow users to read their own records and allow an individual public Skill Passport to be read by its document ID; broad user-list queries are disabled.
 
-Do not reuse the previous exported Firebase project's configuration for a public demo unless you own and intend to share that project.
 
-### 5. Start the application
-
-```bash
-npm run dev
-```
-
-Open `http://localhost:3000`. The Express server hosts the Vite development frontend and the `/api/*` endpoints together.
-
-## Common commands
-
-| Command | What it does |
-|---|---|
-| `npm run dev` | Starts the Express server with the Vite development frontend |
-| `npm run build` | Builds the frontend into the root `dist/` folder |
-| `npm start` | Starts Express in production mode and serves the built frontend |
-| `npm run lint` | Runs TypeScript type checking |
-| `npm run preview` | Previews the Vite frontend only; API routes are not included in this preview server |
-
-Build before running the production server:
-
-```bash
-npm run build
-npm start
-```
-
-Bun users can alternatively run `bun install` using the included `bun.lock`; npm users can use `npm install`.
-
-The `npm start` script sets `NODE_ENV=production` automatically. On your host, make sure you run `npm run build` during the build/deploy step before starting the server.
-
-## Backend API endpoints
-
-- `GET /api/ai-provider-status` — reports the configured AI provider status.
-- `POST /api/generate-resources` — generates learning resources for a skill sublevel.
-- `POST /api/openai/deep-dive` — generates a deeper explanation for a roadmap node.
-- `POST /api/openai/generate-flowchart` — generates a custom skill roadmap/flowchart.
-
-AI-generated content depends on valid server-side provider configuration. Check the terminal logs and the provider status endpoint if generation falls back to curated content.
-
-## Before pushing to GitHub
-
-See [`docs/GITHUB-UPLOAD-GUIDE.md`](docs/GITHUB-UPLOAD-GUIDE.md) for step-by-step upload instructions.
-
-- Confirm that `.env` is not staged; only `.env.example` should be committed.
-- Never commit real API keys, OAuth client secrets, passwords, or service-account JSON files.
-- Use a Firebase project you control and keep its Firestore rules restrictive. A Firebase web API key is not a server secret, but project configuration and security rules still need proper restrictions.
-- The project-specific Firebase configuration from the AI Studio export was removed and replaced with environment variables.
-- `docs/reference-images/` contains design/reference screenshots, not runtime dependencies.
-- Add a `LICENSE` only after deciding which license you want to apply to this project and its included assets.
-
-## Current implementation notes
-
-- Several curriculum/course/opportunity datasets are kept as TypeScript files in `frontend/src/data/`.
-- The Express routes currently live together in `backend/server.ts`. They can be split into `backend/routes/` later if the API grows.
-- The original AI Studio scratch/cache directory was excluded from the GitHub-ready package because it contained generated temporary media and duplicate assets.
