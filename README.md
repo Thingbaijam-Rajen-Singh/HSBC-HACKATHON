@@ -1,8 +1,8 @@
 # SkillMate
 
-A gamified skill-learning and project-building web application. Students can explore skill roadmaps, practise through interactive activities, browse courses and opportunities, track project work, and build a shareable Skill Passport.
+SkillBridge is a personalized, gamified skill-development platform that transforms how students learn, practise, and demonstrate their abilities. It turns skill development into an interactive journey where students follow adaptive roadmaps, solve coding challenges, and build practical projects instead of simply consuming courses and collecting certificates.
 
-> **Branding note:** the visible application UI currently uses the name **SkillMate**, while some project metadata and AI prompts use **SkillBridge**. This repository keeps the project name from the exported code; choose one name and standardize the UI copy before a public release.
+It brings together four personalized learning pathways, a Candy Crush-inspired progression system, eight interactive challenge types, cross-platform course discovery, independent project building, and an automatically generated Skill Passport to connect learning with tangible outcomes. By adapting to what students already know and documenting what they accomplish, SkillBridge helps them turn learning progress into a portfolio of practical skills and real projects.
 
 ## Tech stack
 
