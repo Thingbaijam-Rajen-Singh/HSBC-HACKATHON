@@ -1,6 +1,6 @@
 # SkillMate
 
-SkillBridge is a personalized, gamified skill-development platform that transforms how students learn, practise, and demonstrate their abilities. It turns skill development into an interactive journey where students follow adaptive roadmaps, solve coding challenges, and build practical projects instead of simply consuming courses and collecting certificates.
+SkillMate is a personalized, gamified skill-development platform that transforms how students learn, practise, and demonstrate their abilities. It turns skill development into an interactive journey where students follow adaptive roadmaps, solve coding challenges, and build practical projects instead of simply consuming courses and collecting certificates.
 
 It brings together four personalized learning pathways, a Candy Crush-inspired progression system, eight interactive challenge types, cross-platform course discovery, independent project building, and an automatically generated Skill Passport to connect learning with tangible outcomes. By adapting to what students already know and documenting what they accomplish, SkillBridge helps them turn learning progress into a portfolio of practical skills and real projects.
 
@@ -191,6 +191,45 @@ The SkillBridge dashboard provides quick access to learning roadmaps, courses, p
 
 ![dashboard_screenshot](images/dashboard.png)
 
+## Learn a Skill
+
+Explore career-focused skill roadmaps tailored to your goals, experience, and preferred learning style, from foundational learning to fast-tracked, project-based paths.
+
+![learnskill](images/learnskill.png)
+
+## Roadmap Flowchart
+
+Visualize your skill-learning journey through an interactive flowchart of topics, subtopics, prerequisites, and completed levels.
+
+![roadmap](images/roadmapFlowchart.png)
+
+![roadmap2](images/flowchart.png)
+
+## Skill Level Up
+
+Master skills through interactive coding challenges, quizzes, code puzzles, bug hunts, and hands-on missions that test your practical abilities.
+
+![levelup](images/SkillLevelUp.png)
+
+![levelup2](images/levels.png)
+
+## Course Browser
+
+Discover free and paid courses from across the internet, with learning resources organized by skill and topic.
+
+![browser](images/courseBrowser.png)
+
+## Project Zone
+
+Build real-world projects through progressive, skill-based project levels that turn your knowledge into practical experience.
+
+![project](images/ProjectZone.png)
+
+## Skill Passport
+
+Automatically showcase completed skill levels, projects, achievements, and evidence in a shareable portfolio.
+
+![passport](images/SkillPassport.png)
 
 
 
